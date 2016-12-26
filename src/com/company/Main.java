@@ -1,47 +1,53 @@
 package com.company;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
 	// write your code here
+        int lastAns = 0;
         Scanner in = new Scanner(System.in);
-        int arr[][] = new int[6][6];
-        for(int arr_i=0; arr_i < 6; arr_i++){
-            for(int arr_j=0; arr_j < 6; arr_j++){
-                arr[arr_i][arr_j] = in.nextInt();
-            }
+        String constraintsString = in.nextLine();
+        String[] constraints = constraintsString.split(" ");
+
+        int numOfSeq = Integer.parseInt(constraints[0]);
+        int numOfQuery = Integer.parseInt(constraints[1]);
+        List<List<Integer>> seqList = new ArrayList<>(numOfSeq);
+        for (int i=0; i < numOfSeq; i++) {
+            seqList.add(new ArrayList<>());
         }
 
-        // 6X6 array.
-        // [n][0] [n][1] [n][2]
-        //        [n+1][1]
-        // [n+2][0][n+2][1][n+2][2]
+        for (int i=0; i < numOfQuery; i++) {
+            String queryString = in.nextLine();
+            String[] queryParams = queryString.split(" ");
+            int x = Integer.parseInt(queryParams[1]);
+            int y = Integer.parseInt(queryParams[2]);
 
-        int maximum = 0;
-        for(int i=0; i<4; i++) {
-            //row
-            for(int j=0; j<4; j++) {
-                //column
-                int currentSum = 0;
-                currentSum += arr[i][j];
-                currentSum += arr[i][j+1];
-                currentSum += arr[i][j+2];
-                currentSum += arr[i+1][j+1];
-                currentSum += arr[i+2][j];
-                currentSum += arr[i+2][j+1];
-                currentSum += arr[i+2][j+2];
 
-                if (i==0 && j==0) {
-                    maximum = currentSum;
-                }
-
-                if (maximum < currentSum) {
-                    maximum = currentSum;
-                }
+            if (Integer.parseInt(queryParams[0]) == 1) {
+                firstQuery(x, y, lastAns, numOfSeq, seqList);
+            } else if(Integer.parseInt(queryParams[0]) == 2) {
+                lastAns = secondQuery(x, y, lastAns, numOfSeq, seqList);
+                System.out.println(lastAns);
             }
+
         }
-        System.out.println(maximum);
     }
+
+    private static void firstQuery(int x, int y, int lastAns, int numOfSeq, List<List<Integer>> seqList) {
+        int seqIndex = (x^lastAns)%numOfSeq;
+        List<Integer> seq = seqList.get(seqIndex);
+        seq.add(y);
+    }
+
+    private static int secondQuery(int x, int y, int lastAns, int numOfSeq, List<List<Integer>> seqList) {
+        int seqIndex = (x^lastAns)%numOfSeq;
+        List<Integer> seq = seqList.get(seqIndex);
+        int lastAnsIndex = y%seq.size();
+        return seq.get(lastAnsIndex);
+    }
+
 }
