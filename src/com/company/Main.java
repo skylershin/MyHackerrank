@@ -6,43 +6,43 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
-	// write your code here
-        Scanner in = new Scanner(System.in);
-
-        String infoString = in.nextLine();
-        String[] info = infoString.split(" ");
-        int numOfElements = Integer.parseInt(info[0]);
-        int numOfRotations = Integer.parseInt(info[1]);
-
-        String object = in.nextLine();
-        String[] objectArray = object.split(" ");
-
-        String[] result = leftRotation(objectArray, numOfRotations, numOfElements);
-        for (int i=0; i<result.length; i++) {
-            System.out.print(result[i]);
-            if (i != result.length -1) {
-                System.out.print(" ");
+    public static void insertIntoSorted(int[] ar) {
+        // Fill up this function
+        int size = ar.length;
+        int rightCell = ar[size - 1];
+        for (int i= size -2; i >= 0; i--) {
+            if (ar[i] > rightCell) {
+                ar[i+1] = ar[i];
+                printArray(ar);
+                if (i == 0) {
+                    ar[i] = rightCell;
+                    printArray(ar);
+                }
+            } else if(ar[i] < rightCell) {
+                ar[i+1] = rightCell;
+                printArray(ar);
+                break;
             }
         }
     }
 
-    private static String[] leftRotation(String[] origin, int numOfRotations, int numOfElements) {
-        String[] copied = new String[numOfRotations];
-        String[] newArray = new String[numOfElements];
 
-        for (int i=0; i< numOfElements; i++) {
-            if (i < numOfRotations) {
-                copied[i] = origin[i];
-            } else {
-                newArray[i - numOfRotations] = origin[i];
-            }
+    /* Tail starts here */
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int s = in.nextInt();
+        int[] ar = new int[s];
+        for(int i=0;i<s;i++){
+            ar[i]=in.nextInt();
         }
+        insertIntoSorted(ar);
+    }
 
-        for (int i=0; i < copied.length; i++) {
-            newArray[numOfElements - numOfRotations + i] = copied[i];
+
+    private static void printArray(int[] ar) {
+        for(int n: ar){
+            System.out.print(n+" ");
         }
-
-        return newArray;
+        System.out.println("");
     }
 }
