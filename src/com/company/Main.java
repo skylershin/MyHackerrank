@@ -8,46 +8,41 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-        int lastAns = 0;
         Scanner in = new Scanner(System.in);
-        String constraintsString = in.nextLine();
-        String[] constraints = constraintsString.split(" ");
 
-        int numOfSeq = Integer.parseInt(constraints[0]);
-        int numOfQuery = Integer.parseInt(constraints[1]);
-        List<List<Integer>> seqList = new ArrayList<>(numOfSeq);
-        for (int i=0; i < numOfSeq; i++) {
-            seqList.add(new ArrayList<>());
-        }
+        String infoString = in.nextLine();
+        String[] info = infoString.split(" ");
+        int numOfElements = Integer.parseInt(info[0]);
+        int numOfRotations = Integer.parseInt(info[1]);
 
-        for (int i=0; i < numOfQuery; i++) {
-            String queryString = in.nextLine();
-            String[] queryParams = queryString.split(" ");
-            int x = Integer.parseInt(queryParams[1]);
-            int y = Integer.parseInt(queryParams[2]);
+        String object = in.nextLine();
+        String[] objectArray = object.split(" ");
 
-
-            if (Integer.parseInt(queryParams[0]) == 1) {
-                firstQuery(x, y, lastAns, numOfSeq, seqList);
-            } else if(Integer.parseInt(queryParams[0]) == 2) {
-                lastAns = secondQuery(x, y, lastAns, numOfSeq, seqList);
-                System.out.println(lastAns);
+        String[] result = leftRotation(objectArray, numOfRotations, numOfElements);
+        for (int i=0; i<result.length; i++) {
+            System.out.print(result[i]);
+            if (i != result.length -1) {
+                System.out.print(" ");
             }
-
         }
     }
 
-    private static void firstQuery(int x, int y, int lastAns, int numOfSeq, List<List<Integer>> seqList) {
-        int seqIndex = (x^lastAns)%numOfSeq;
-        List<Integer> seq = seqList.get(seqIndex);
-        seq.add(y);
-    }
+    private static String[] leftRotation(String[] origin, int numOfRotations, int numOfElements) {
+        String[] copied = new String[numOfRotations];
+        String[] newArray = new String[numOfElements];
 
-    private static int secondQuery(int x, int y, int lastAns, int numOfSeq, List<List<Integer>> seqList) {
-        int seqIndex = (x^lastAns)%numOfSeq;
-        List<Integer> seq = seqList.get(seqIndex);
-        int lastAnsIndex = y%seq.size();
-        return seq.get(lastAnsIndex);
-    }
+        for (int i=0; i< numOfElements; i++) {
+            if (i < numOfRotations) {
+                copied[i] = origin[i];
+            } else {
+                newArray[i - numOfRotations] = origin[i];
+            }
+        }
 
+        for (int i=0; i < copied.length; i++) {
+            newArray[numOfElements - numOfRotations + i] = copied[i];
+        }
+
+        return newArray;
+    }
 }
