@@ -6,48 +6,29 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void insertIntoSorted(int[] ar) {
-        // Fill up this function
-        if (ar.length == 1) {
-            printArray(ar);
-            return;
-        }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int numberOfCase = Integer.parseInt(scanner.nextLine());
 
-        for (int i=1; i<ar.length;i++) {
-            int current = ar[i];
-            for (int j=i-1; j>=0;j--) {
-                if (current < ar[j]) {
-                    ar[j+1] = ar[j];
-                    if (j == 0) {
-                        ar[j] = current;
-                        printArray(ar);
-                    }
-                } else if(current > ar[j]) {
-                    ar[j+1] = current;
-                    printArray(ar);
-                    break;
+        while(numberOfCase >0) {
+            String text = scanner.nextLine();
+            char[] chars = text.toCharArray();
+            ArrayList<Character> evenList = new ArrayList();
+            for (int i=0; i<chars.length; i++) {
+                if (i % 2 == 0) {
+                    System.out.print(chars[i]);
+                } else {
+                    evenList.add(chars[i]);
                 }
             }
+            System.out.print(" ");
+            for (char evenChar: evenList) {
+                System.out.print(evenChar);
+            }
+            System.out.println();
+
+            numberOfCase -= 1;
         }
     }
 
-
-    /* Tail starts here */
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int s = in.nextInt();
-        int[] ar = new int[s];
-        for(int i=0;i<s;i++){
-            ar[i]=in.nextInt();
-        }
-        insertIntoSorted(ar);
-    }
-
-
-    private static void printArray(int[] ar) {
-        for(int n: ar){
-            System.out.print(n+" ");
-        }
-        System.out.println("");
-    }
 }
