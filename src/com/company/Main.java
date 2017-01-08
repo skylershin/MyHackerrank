@@ -8,20 +8,25 @@ public class Main {
 
     public static void insertIntoSorted(int[] ar) {
         // Fill up this function
-        int size = ar.length;
-        int rightCell = ar[size - 1];
-        for (int i= size -2; i >= 0; i--) {
-            if (ar[i] > rightCell) {
-                ar[i+1] = ar[i];
-                printArray(ar);
-                if (i == 0) {
-                    ar[i] = rightCell;
+        if (ar.length == 1) {
+            printArray(ar);
+            return;
+        }
+
+        for (int i=1; i<ar.length;i++) {
+            int current = ar[i];
+            for (int j=i-1; j>=0;j--) {
+                if (current < ar[j]) {
+                    ar[j+1] = ar[j];
+                    if (j == 0) {
+                        ar[j] = current;
+                        printArray(ar);
+                    }
+                } else if(current > ar[j]) {
+                    ar[j+1] = current;
                     printArray(ar);
+                    break;
                 }
-            } else if(ar[i] < rightCell) {
-                ar[i+1] = rightCell;
-                printArray(ar);
-                break;
             }
         }
     }
