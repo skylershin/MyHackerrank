@@ -3,51 +3,56 @@ package com.company;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Main {
 
-    public static void insertIntoSorted(int[] ar) {
-        // Fill up this function
-        if (ar.length == 1) {
-            printArray(ar);
-            return;
+    static class Node {
+        int data;
+        Node next;
+    }
+
+    public static Node reverse(Node head) {
+        if (head == null) {
+            return head;
+        }
+        Node current = head;
+        Stack<Node> stack = new Stack();
+        while (current != null) {
+            stack.push(current);
+            current = current.next;
         }
 
-        for (int i=1; i<ar.length;i++) {
-            int current = ar[i];
-            for (int j=i-1; j>=0;j--) {
-                if (current < ar[j]) {
-                    ar[j+1] = ar[j];
-                    if (j == 0) {
-                        ar[j] = current;
-                        printArray(ar);
-                    }
-                } else if(current > ar[j]) {
-                    ar[j+1] = current;
-                    printArray(ar);
-                    break;
-                }
-            }
+        Node first = stack.pop();
+        Node before = first;
+        while (!stack.empty()) {
+            Node next = stack.pop();
+            next.next = null;
+            before.next = next;
+
+            before = next;
         }
+
+        return first;
     }
 
 
     /* Tail starts here */
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int s = in.nextInt();
-        int[] ar = new int[s];
-        for(int i=0;i<s;i++){
-            ar[i]=in.nextInt();
-        }
-        insertIntoSorted(ar);
+        Node head = new Node();
+        head.data = 1;
+        Node second = new Node();
+        second.data = 2;
+        head.next = second;
+
+        printNode(reverse(head));
     }
 
-
-    private static void printArray(int[] ar) {
-        for(int n: ar){
-            System.out.print(n+" ");
+    public static void printNode(Node head) {
+        Node current = head;
+        while (current != null) {
+            System.out.println(current.data);
+            current = current.next;
         }
-        System.out.println("");
     }
 }
